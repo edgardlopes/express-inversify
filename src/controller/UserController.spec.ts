@@ -1,8 +1,8 @@
 import "reflect-metadata";
-import { Container } from "inversify";
-import { cleanUpMetadata, InversifyExpressServer } from "inversify-express-utils";
+import { cleanUpMetadata } from "inversify-express-utils";
 import supertest from "supertest";
-import "./UserController";
+
+import { app } from "../index";
 
 
 describe('UserController UnitTest', () => {
@@ -11,16 +11,13 @@ describe('UserController UnitTest', () => {
         cleanUpMetadata();
         done();
     });
-    
+
     it("should work for async controller methods", (done) => {
+        
+        supertest(app)
+            .post("/users")
+            .send({name: "edgard", age: 25})
+            .expect(201, "Created", done);
 
-        let server: InversifyExpressServer;
-        let container: Container = new Container();
-        server = new InversifyExpressServer(container);
-
-
-        supertest(server.build())
-            .get("/users")
-            .expect(200, "GET", done);
     });
 })

@@ -1,6 +1,7 @@
 import { inject, injectable } from "inversify";
 import { UserRepository } from "../interface/User.repository";
 import { User } from "../model/User";
+import "reflect-metadata";
 
 @injectable()
 export class SaveUser {
